@@ -1,0 +1,55 @@
+'''
+CS5001 HW 7
+Design Document
+Shebna Mathew
+'''
+
+The Driver: GameManagementSystem.py
+    - The main function
+    
+
+The Game: Game.py
+    - Menu function (reused from a previous HW program)
+    - The Game class
+        - Has attributes:
+            lists : rooms ,items ,puzzles ,monsters ,item_names ,puzzles_names ,
+                monsters_names, inventory
+            dictionary : item_in_room - key: item name, value: room name
+            variables : current_room ,score ,weight ,rating
+            functions : load_rooms,load_items,load_puzzles_and_monsters,
+                star_game, go_to_room, display_inventory,
+                take_item, drop_item, use_item, total_score
+
+
+
+The Unit Test class: GameTest.py
+    - Unit test module for the function : total_score
+    Set up a PyUnit test module for the game function 'total_score'.
+    Functions: setUp, tearDown, back_to_the_start,
+                test_noItem, test_items, test_oneItem, test_twoItems
+    The function 'setUp' opens the data files containing data for:
+        Room, Item, Puzzle, Monster
+    The function 'tearDown' closes the data files after testing
+    The function 'back_to_the_start' rests the file reader to the start
+        for new objects
+    The rest of the functions check for different scenarios
+        for the items in an inventory and their corresponding values
+
+
+Tested the game with different scenarios involving
+ moving in any given direction, blocking paths with puzzles,
+ taking an item which is not present, using an item on a monster
+ or a puzzle, dropping an item and checking if it stays in the current room
+ when we revisit, looking into any item and able to exit.
+ Checking if the last game is correctly reloaded to continue the gameplay.
+
+    
+
+The Classes: room.py
+    - The Room class
+    - The Item class
+    - The Puzzles and Monsters class
+
+
+
+            
