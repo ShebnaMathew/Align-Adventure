@@ -8,6 +8,7 @@ Menu function
 '''
 from tkinter import *
 from tkinter import simpledialog
+from tkinter import messagebox
 #import turtle
 from room import *
 import pickle
@@ -64,50 +65,77 @@ class Game:
         self.rating = 'NOOB'
 
         self.main = Tk()
-        #self.screen = turtle.Screen()
         self.setup_graphics()
 
     def setup_graphics(self):
+        
         self.canvas = Canvas(self.main, bg = "white", height = 500, width = 1000)
         self.filename = PhotoImage(file = "courtyard.png")
         self.image = self.canvas.create_image(50, 50, anchor = NW, image = self.filename)
 
         self.location_text = StringVar()
         self.location_text.set("Courtyard")
-        self.location = Label(self.main, textvariable = self.location_text, fg = "blue", font=("Courier", 30)).place(x = 500, y = 50)
+        self.location = Label(self.main, textvariable = self.location_text,
+                              fg = "blue", font=("Courier", 30)).place(x = 500, y = 50)
 
         self.description_text = StringVar()
-        self.description_text.set("A beautiful courtyard with flowers\n on both sides of the stone walkway.\nThe walkway leads north.")
-        self.description = Label(self.main, textvariable = self.description_text, fg = "blue", wraplength = 300).place(x = 500, y = 100)
+        self.description_text.set("A beautiful courtyard with flowers\
+                                  on both sides of the stone walkway.\
+                                  The walkway leads north.")
+        self.description = Label(self.main, textvariable = self.description_text,
+                                 fg = "blue", wraplength = 300).place(x = 500, y = 100)
 
         self.puzzle_text = StringVar()
-        self.puzzle_text.set("No puzzle")
-        self.puzzle = Label(self.main, textvariable = self.puzzle_text, fg = "red", font=("Courier", 24)).place(x = 500, y = 225)
+        self.puzzle_text.set("Puzzle: No puzzle")
+        self.puzzle = Label(self.main, textvariable = self.puzzle_text,
+                            fg = "red", wraplength = 300, font=("Courier", 24)).place(x = 500, y = 250)
 
         self.item_text = StringVar()
-        self.item_text.set("No item")
-        self.item_action = Label(self.main, textvariable = self.item_text, fg = "orange", font=("Courier", 24)).place(x = 500, y = 250)
+        self.item_text.set("Item Updates: No item")
+        self.item_action = Label(self.main, textvariable = self.item_text, fg = "orange",
+                                 wraplength = 300, font=("Courier", 24)).place(x = 500, y = 300)
         
         self.inventory_text = StringVar()
-        self.inventory_text.set("Nothing yet")
-        self.inventory_list = Label(self.main, textvariable = self.inventory_text, fg = "pink", font=("Courier", 24)).place(x = 500, y = 300)
+        self.inventory_text.set("Inventory: Nothing yet")
+        self.inventory_list = Label(self.main, textvariable = self.inventory_text, fg = "pink",
+                                    wraplength = 300, font=("Courier", 24)).place(x = 500, y = 400)
         #self.description.place(x = 500, y = 100)
         
         
-        self.look_button = Button(self.main, text = "Look", command = self.look, width = 10, activebackground = "#33b5e5", relief = FLAT).place(x = 900, y = 50)
-        self.drop_button = Button(self.main, text = "Drop", command = self.drop, width = 10, activebackground = "#33b5e5", relief = FLAT).place(x = 900, y = 75)
-        self.take_button = Button(self.main, text = "Take", command = self.take, width = 10, activebackground = "#33b5e5", relief = FLAT).place(x = 900, y = 100)
-        self.inventory_button = Button(self.main, text = "Inventory", command = self.display_inventory, width = 10, activebackground = "#33b5e5", relief = FLAT).place(x = 900, y = 125)
-        self.use_button = Button(self.main, text = "Use", command = self.use, width = 10, activebackground = "#33b5e5", relief = FLAT).place(x = 900, y = 150)
-
-        self.north_button = Button(self.main, text = "North", command = self.go_north, width = 10, activebackground = "#33b5e5", relief = FLAT).place(x = 900, y = 175)
-        self.east_button = Button(self.main, text = "East", command = self.go_east, width = 10, activebackground = "#33b5e5", relief = FLAT).place(x = 900, y = 200)
-        self.south_button = Button(self.main, text = "South", command = self.go_south, width = 10, activebackground = "#33b5e5", relief = FLAT).place(x = 900, y = 225)
-        self.west_button = Button(self.main, text = "West", command = self.go_west, width = 10, activebackground = "#33b5e5", relief = FLAT).place(x = 900, y = 250)
+        self.look_button = Button(self.main, text = "Look", command = self.look, width = 10,
+                                  activebackground = "#33b5e5", relief = FLAT).place(x = 900, y = 50)
         
-        self.quit_button = Button(self.main, text = "Quit", command = self.quit_game, width = 10, activebackground = "#33b5e5", relief = FLAT).place(x = 900, y = 300)
+        self.drop_button = Button(self.main, text = "Drop", command = self.drop, width = 10,
+                                  activebackground = "#33b5e5", relief = FLAT).place(x = 900, y = 75)
+        
+        self.take_button = Button(self.main, text = "Take", command = self.take, width = 10,
+                                  activebackground = "#33b5e5", relief = FLAT).place(x = 900, y = 100)
+        
+        self.inventory_button = Button(self.main, text = "Inventory", command = self.display_inventory,
+                                       width = 10, activebackground = "#33b5e5", relief = FLAT).place(x = 900, y = 125)
+        
+        self.use_button = Button(self.main, text = "Use", command = self.use, width = 10,
+                                 activebackground = "#33b5e5", relief = FLAT).place(x = 900, y = 150)
+
+        self.north_button = Button(self.main, text = "North", command = self.go_north, width = 10,
+                                   activebackground = "#33b5e5", relief = FLAT).place(x = 900, y = 175)
+        
+        self.east_button = Button(self.main, text = "East", command = self.go_east, width = 10,
+                                  activebackground = "#33b5e5", relief = FLAT).place(x = 900, y = 200)
+        
+        self.south_button = Button(self.main, text = "South", command = self.go_south, width = 10,
+                                   activebackground = "#33b5e5", relief = FLAT).place(x = 900, y = 225)
+        
+        self.west_button = Button(self.main, text = "West", command = self.go_west, width = 10,
+                                  activebackground = "#33b5e5", relief = FLAT).place(x = 900, y = 250)
+        
+        self.quit_button = Button(self.main, text = "Quit", command = self.quit_game, width = 10,
+                                  activebackground = "#33b5e5", relief = FLAT).place(x = 900, y = 300)
         
     def quit_game(self):
+        self.score, self.rating = self.total_score()
+        messagebox.showinfo(title="Score", message='\nTOTAL SCORE: ' + str(self.score)
+              + '\nYOUR RATING: ' + self.rating)
         self.main.destroy()
     
     def load_rooms(self, room_file):
@@ -196,9 +224,6 @@ class Game:
 
     def take(self):
         while True:
-            #new_item = input('Take what? ')
-            #new_item = Entry(title="Take Item", prompt="What do you want to take?")
-            #new_item = self.screen.textinput("Take!", "What do you want to take?")
             new_item = simpledialog.askstring(title="Take",
                                   prompt="What do you want to take?")
             if new_item.upper() in self.item_names: break
@@ -222,14 +247,11 @@ class Game:
 
     def look(self):
         while True:
-            #look_item = input('At what? ')
             look_item = simpledialog.askstring(title="Look",
                                   prompt="What do you want to look at?")
             if look_item.upper() in self.item_names: break
         index_item = self.item_names.index(look_item.upper())
-        #self.item_action.config(text = self.items[index_item].description)
         self.item_text.set(self.items[index_item].description)
-        #print(self.items[index_item].description)
 
     def start_game(self, choices):
         '''
@@ -326,11 +348,11 @@ class Game:
             
         elif self.room < 0:
             #print('PUZZLE !')
-            self.puzzle_text.set("Puzzle!" + self.rooms[self.current_room].contextual_description())
+            self.puzzle_text.set("Room Status: Puzzle!" + self.rooms[self.current_room].contextual_description())
             #self.rooms[self.current_room].contextual_description()
             
         else:
-            self.puzzle_text.set("Nope can\'t go there.")
+            self.puzzle_text.set("Room Status: Nope can\'t go there.")
             #print('Nope can\'t go there.')
 
         #new_image = self.rooms[self.current_room].picture
@@ -361,7 +383,7 @@ class Game:
         Input: Nothing
         Does: Displays each item a player has in his/her inventory
         '''
-        display = ""
+        display = "Inventory: "
         if len(self.inventory) > 0:
             for each in self.inventory:
                 display += each.name + "\n"
@@ -389,16 +411,17 @@ class Game:
                 self.weight += self.items[index_item].weight
                 self.inventory.append(self.items[index_item])
                 self.rooms[self.current_room].items.remove(self.items[index_item])
-                display = item + ' ADDED to your inventory'
+                display = 'Item Status: ' + item + ' ADDED to your inventory'
                 #print(item + ' ADDED to your inventory')
             else:
-                display = 'Toooo heavy. You need to calm down.'
+                display = 'Item Status: Toooo heavy. You need to calm down.'
                 #print('Toooo heavy. You need to calm down.')
         else:
-            display = 'Can\'t take what\'s not there. *eyeroll*'
+            display = 'Item Status: Can\'t take what\'s not there. *eyeroll*'
             #print('Can\'t take what\'s not there. *eyeroll*')
         #self.item_action.config(text = display)
         self.item_text.set(display)
+        self.display_inventory()
 
 
 
@@ -415,13 +438,14 @@ class Game:
             self.inventory.remove(self.items[index_item])
             self.rooms[self.current_room].add_item(self.items[index_item])
             self.weight -= self.items[index_item].weight
-            display = item + ' DROPPED from your inventory'
+            display = 'Item Status: ' + item + ' DROPPED from your inventory'
             #print(item + ' DROPPED from your inventory')
         else:
-            display = 'Can\'t drop what you don\'t have.'
+            display = 'Item Status: Can\'t drop what you don\'t have.'
             #print('Can\'t drop what you don\'t have.')
         #self.item_action.config(text = display)
         self.item_text.set(display)
+        self.display_inventory()
 
 
             
@@ -441,20 +465,20 @@ class Game:
                 name, can_use = self.items[index_item].use()
                 if success and can_use:
                     #print('SUCCESS! You used ' + item + ' on ' + self.rooms[self.current_room].puzzles[0].name)
-                    display = 'SUCCESS! You used ' + item + ' on ' + self.rooms[self.current_room].puzzles[0].name
+                    display = 'Item Status: ' + 'SUCCESS! You used ' + item + ' on ' + self.rooms[self.current_room].puzzles[0].name
                     self.rooms[self.current_room].puzzles[0].target.reverse_effects()
                     self.rooms[self.current_room].puzzles[0].deactivate()
                 else:
-                    display = 'Nothing happened. You tried.'
+                    display = 'Item Status: ' + 'Nothing happened. You tried.'
                     #print('Nothing happened. You tried.')
             else:
-                display = 'Nothing to use it on.'
+                display = 'Item Status: Nothing to use it on.'
                 #print('Nothing to use it on.')
         else:
-            display = 'You don\'t even have that. Stop swinging.'
-            #print('You don\'t even have that. Stop swinging.')
-        #self.item_action.config(text = display)
+            display = 'Item Status: You don\'t even have that. Stop swinging.'
+            
         self.item_text.set(display)
+        self.display_inventory()
 
             
 
